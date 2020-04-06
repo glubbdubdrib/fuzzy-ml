@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-"""A template."""
+"""A fuzzyml."""
 
 import codecs
 import os
@@ -7,21 +7,21 @@ import os
 from setuptools import find_packages, setup
 
 # get __version__ from _version.py
-ver_file = os.path.join('template', '_version.py')
+ver_file = os.path.join('fuzzyml', '_version.py')
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = 'project-template'
-DESCRIPTION = 'A template.'
+DISTNAME = 'fuzzyml'
+DESCRIPTION = 'Combine scikit-learn estimators with fuzzy logic constraints.'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
 MAINTAINER = 'P. Barbiero'
 MAINTAINER_EMAIL = 'barbiero@tutanota.com'
-URL = 'https://github.com/pietrobarbiero/project-template'
+URL = 'https://github.com/glubbdubdrib/fuzzy-ml'
 LICENSE = 'Apache 2.0'
-DOWNLOAD_URL = 'https://github.com/pietrobarbiero/project-template'
+DOWNLOAD_URL = 'https://github.com/glubbdubdrib/fuzzy-ml.git'
 VERSION = __version__
-INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'pandas']
+INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'pandas', 'scikit-fuzzy']
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',

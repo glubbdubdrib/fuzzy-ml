@@ -3,7 +3,7 @@
 [run]
 branch = True
 source = template
-include = */template/*
+include = */fuzzyml/*
 omit =
     */setup.py
 
