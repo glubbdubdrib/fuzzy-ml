@@ -11,7 +11,7 @@ You can install the software along with all its dependencies from
 .. code:: bash
 
     $ git clone https://github.com/glubbdubdrib/fuzzy-ml.git
-    $ cd ./COVID19-DKD-PKPD
+    $ cd ./fuzzy-ml
     $ pip install -r requirements.txt .
 
 The project depends on both the ``scikit-learn`` and ``scikit-fuzzy`` libraries.
