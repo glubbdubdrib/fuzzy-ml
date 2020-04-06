@@ -14,11 +14,13 @@ def main():
 
     X, y = make_blobs(n_samples=1000, centers=4, random_state=0)
     X = pd.DataFrame(X)
-    cols = ["f1", "f2"]
+    cols = ["F0", "F1"]
     X.columns = cols
     y[y == 2] = 0
     not_visible = y == 3
     y[not_visible] = 1
+    w = np.argwhere(not_visible)
+    y[w[-1]] = 0
     X_visible = X.iloc[~not_visible]
     y_visible = y[~not_visible]
 
@@ -33,12 +35,12 @@ def main():
     feature2['G3'] = fuzz.sigmf(feature2.universe, 5, 2)
     feature2.view()
     label = ctrl.Consequent(np.arange(0, 11, 1), 'label')
-    label['L1'] = fuzz.gaussmf(label.universe, 0, 2)
-    label['L2'] = fuzz.gaussmf(label.universe, 10, 2)
+    label['L0'] = fuzz.gaussmf(label.universe, 0, 2)
+    label['L1'] = fuzz.gaussmf(label.universe, 10, 2)
     label.view()
 
     # rules
-    rule1 = ctrl.Rule(feature1['G1'] & feature2['G2'], label['L2'])
+    rule1 = ctrl.Rule(feature1['G1'] & feature2['G2'], label['L0'])
     rule3 = ctrl.Rule(feature2['G3'], label['L1'])
 
     # control
@@ -47,7 +49,7 @@ def main():
 
     # load ML models
     model = RandomForestClassifier(random_state=0)
-    fuzzy_model = FuzzyClassifier(model, fuzzy_ctrl)
+    fuzzy_model = FuzzyClassifier(model, fuzzy_ctrl, alpha=0.9)
 
     # fit fuzzy model
     fuzzy_model.fit(X_visible, y_visible)

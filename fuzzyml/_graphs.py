@@ -23,7 +23,7 @@ def plot_decision_function(classifier, title, X, y, not_visible, const=False):
     plt.scatter(X.iloc[~not_visible, 0], X.iloc[~not_visible, 1], c=y[~not_visible], s=100, alpha=0.9,
                  cmap=plt.cm.bone, edgecolors='black',
                 label="visible")
-    plt.scatter(X.iloc[not_visible, 0], X.iloc[not_visible, 1], c="w",
+    plt.scatter(X.iloc[not_visible, 0], X.iloc[not_visible, 1], c=y[not_visible], cmap=plt.cm.bone,
                 marker="s", s=100, alpha=0.9, edgecolors='black',
                 label="not visible")
 

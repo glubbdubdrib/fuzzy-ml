@@ -21,7 +21,7 @@ URL = 'https://github.com/glubbdubdrib/fuzzy-ml'
 LICENSE = 'Apache 2.0'
 DOWNLOAD_URL = 'https://github.com/glubbdubdrib/fuzzy-ml.git'
 VERSION = __version__
-INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'pandas', 'scikit-fuzzy']
+INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'pandas', 'scikit-fuzzy', 'scikit-posthocs']
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',

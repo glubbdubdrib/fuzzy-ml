@@ -1,4 +1,5 @@
 from ._clf import FuzzyClassifier
+from ._extract import extract_rules
 from ._graphs import plot_decision_function
 
 from ._version import __version__

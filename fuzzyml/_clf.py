@@ -3,6 +3,7 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import accuracy_score
+import skfuzzy as fuzz
 
 from ._chull import convex_combination_test, convex_PCA
 
@@ -21,6 +22,7 @@ class FuzzyClassifier(BaseEstimator, ClassifierMixin):
         # Store the classes seen during fit
         self.classes_ = unique_labels(y)
         self.X_ = X
+        self.y_set_ = set(y)
 
         self.model.fit(X, y)
 
@@ -34,18 +36,18 @@ class FuzzyClassifier(BaseEstimator, ClassifierMixin):
         # Input validation
         X_checked = check_array(X)
 
-        y_fuzzy = []
         ctrl_inputs = [i.label for i in self.fuzzy_ctrl.ctrl.antecedents]
         consequent = [i for i in self.fuzzy_ctrl.ctrl.consequents][0]
-        normalize = max(consequent.universe) - min(consequent.universe)
-        for i in range(X.shape[0]):
+        y_fuzzy = np.zeros((X.shape[0], len(self.y_set_)))
+        for nr, sample in enumerate(X.index):
             for ctrl_in in ctrl_inputs:
-                self.fuzzy_ctrl.input[ctrl_in] = X.loc[i, ctrl_in]
+                self.fuzzy_ctrl.input[ctrl_in] = X.loc[sample, ctrl_in]
             self.fuzzy_ctrl.compute()
-            y_fuzzy.append(self.fuzzy_ctrl.output["label"] / normalize)
-
-        y_fuzzy = np.array(y_fuzzy)
-        y_fuzzy = np.vstack([y_fuzzy, 1-y_fuzzy]).T
+            label_pred = self.fuzzy_ctrl.output["label"]
+            for nc, (_, term) in enumerate(consequent.terms.items()):
+                y_fuzzy[nr, nc] = fuzz.interp_membership(consequent.universe,
+                                                         term.mf,
+                                                         label_pred)
 
         # compute convex hull
         if self.chull == "exact":
@@ -57,7 +59,7 @@ class FuzzyClassifier(BaseEstimator, ClassifierMixin):
 
         X_out, X_in = X.iloc[is_out], X.iloc[~is_out]
 
-        y = np.zeros((len(X), 2))
+        y = np.zeros((len(X), len(self.y_set_)))
         if not X_in.empty:
             y_in = self.alpha * self.model.predict_proba(X_in) + (1-self.alpha) * y_fuzzy[~is_out]
             y[~is_out] = y_in
@@ -69,7 +71,7 @@ class FuzzyClassifier(BaseEstimator, ClassifierMixin):
 
     def predict(self, X):
         y = self.predict_proba(X)
-        return y[:, 1] >= 0.5
+        return np.argmax(y, axis=1)
 
     def score(self, X, y, sample_weight=None):
         y_pred = self.predict(X)

@@ -14,7 +14,11 @@ You can install the software along with all its dependencies from
     $ cd ./fuzzy-ml
     $ pip install -r requirements.txt .
 
-The project depends on both the ``scikit-learn`` and ``scikit-fuzzy`` libraries.
+The project depends on three ``scikit`` libraries:
+
+- ``scikit-learn``: for standard ML models
+- ``scikit-fuzzy``: for the fuzzy logic system
+- ``scikit-posthocs``: for statistical hypothesis tests used to extract rules automatically from the training set
 
 Source
 ------

@@ -3,3 +3,4 @@ scipy
 scikit-learn
 pandas
 scikit-fuzzy
+scikit-posthocs
