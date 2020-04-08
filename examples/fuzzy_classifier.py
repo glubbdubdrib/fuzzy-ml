@@ -49,7 +49,7 @@ def main():
 
     # load ML models
     model = RandomForestClassifier(random_state=0)
-    fuzzy_model = FuzzyClassifier(model, fuzzy_ctrl, alpha=0.9)
+    fuzzy_model = FuzzyClassifier(model, fuzzy_ctrl, alpha=0.7, random_state=42)
 
     # fit fuzzy model
     fuzzy_model.fit(X_visible, y_visible)
